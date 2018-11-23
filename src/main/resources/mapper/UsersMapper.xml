@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 指定工作空间，要与接口名相同，源代码没有去看，猜测应该是通过"这里的namespace.下边方法的id"来定位方法的 -->
+<mapper namespace="com.example.directories.mapper.UsersMapper">
+
+    <sql id="Base_Table">USERS</sql>
+    <sql id="Base_Column">ID,USERNAME,SEX,AGE,PHONE,ADDRESS</sql>
+
+    <!-- insert user-->
+    <insert id="insert" parameterType="com.example.directories.model.Users" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO <include refid="Base_Table"/> (<include refid="Base_Column"/>) VALUES(#{id},#{userName},#{sex},#{age},#{phone},#{address});
+    </insert>
+
+    <!-- update user -->
+    <update id="update" parameterType="com.example.directories.model.Users">
+        UPDATE <include refid="Base_Table"/> SET USERNAME=#{userName},SEX=#{sex},AGE=#{age},PHONE=#{phone},ADDRESS=#{address} WHERE ID=#{id}
+    </update>
+
+    <!-- find user -->
+    <!-- <select id="find" parameterType="int" resultType="com.example.directories.model.Users">
+         SELECT <include refid="Base_Column"/> FROM <include refid="Base_Table"/> WHERE ID=#{0}
+     </select>-->
+
+     <!-- delete user -->
+    <delete id="delete" parameterType="int">
+        DELETE FROM <include refid="Base_Table"/> WHERE ID=#{0}
+    </delete>
+
+    <select id="getAllUsers" parameterType="map" resultType="com.example.directories.model.Users">
+        SELECT <include refid="Base_Column"/> FROM <include refid="Base_Table"/>
+    </select>
+
+    <select id="getPageUsers" parameterType="map" resultType="com.example.directories.model.Users">
+        SELECT <include refid="Base_Column"/> FROM <include refid="Base_Table"/>
+    </select>
+</mapper>
